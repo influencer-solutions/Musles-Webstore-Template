@@ -45,10 +45,10 @@ main.container {
 <div class="input-group-prepend">
 <div class="input-group-text" id="btnGroupAddon2">Filter Products By:</div>
 </div>
-<button id="buttonAll" class="btn btn-primary" value="all">All Products</button>
-<button id="buttonApparel" class="btn btn-primary" value="apparel">Apparel</button>
-<button id="buttonDrinkware" class="btn btn-primary" value="drinkware">Drinkware</button>
-<button id="buttonAccessories" class="btn btn-primary" value="accessories">Accessories</button>
+<button id="buttonAll" class="btn btn-primary" value="all">Gold</button>
+<button id="buttonApparel" class="btn btn-primary" value="apparel">Futuristic</button>
+<button id="buttonDrinkware" class="btn btn-primary" value="drinkware">Minimal</button>
+<button id="buttonAccessories" class="btn btn-primary" value="accessories">Shop All</button>
 </div>
 </div>
 </div>
@@ -63,9 +63,9 @@ main.container {
 <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-9bf952ccbbd13c245169a0a1190323a27ce073a3d304b8c0fdf421ab22794a58.js"></script>
 <script src='https://sdks.shopifycdn.com/buy-button/0.9.1/buybutton.js'></script>
 <script id="rendered-js">
-const trevorDomain = 'thetrevorproject.myshopify.com';
-const trevorToken = 'c4776c5661f9a6cc79a3170b5fee4529';
-const accessToken = 'f9c2335ed3cd111d83c2f5bd02853c65';
+const trevorDomain = 'musles-enterprise.myshopify.com';
+const trevorToken = 'd247bb5fdb8f69b109f94e786a60bf7d';
+const accessToken = 'd247bb5fdb8f69b109f94e786a60bf7d';
 const productContainer = document.getElementById('product-container');
 
 var client = ShopifyBuy.buildClient({
@@ -74,15 +74,20 @@ var client = ShopifyBuy.buildClient({
 });
 //product lists
 const colApparel = [
-"prod-2156666945600",
+"prod-4288918978605",
 "prod-2156669599808",
 "prod-2156670058560",
 "prod-2156670419008"];
 
 const colDrinkware = [
-"#prod-2156668682304",
-"#prod-2157432766528",
-"#prod-2377979199552"];
+"#prod-4288918978605",
+"#prod-4341105197101",
+"#prod-4286030708781"],
+"#prod-4286019403821"],
+"#prod-4286034903085"],
+"#prod-4286026711085"],
+"#prod-4327535181869"],
+"#prod-4286032412717"];
 
 const colAccessories = [
 "#prod-2156667994176",
