@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+<title>Musles Media Store | Influify</title>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<style>
+body {
+    background:lightblue
+}
+main.container {
+    background:white;
+}
+.card {
+    width: 20%;
+}
+.shopify-buy-frame--product {
+    display: inline-flex ;
+}
+.visible {
+    display: none !important;
+}
+.filtered {
+    display: none !important;
+}
+</style>
+<script>
+  window.console = window.console || function(t) {};
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+</head>
+<body translate="no">
+<main class="container">
+<div class="row bg-gray">
+<div class="col-8 offset-2 py-3">
+<div class="input-group justify-content-between">
+<div class="input-group-prepend">
+<div class="input-group-text" id="btnGroupAddon2">Filter Products By:</div>
+</div>
+<button id="buttonAll" class="btn btn-primary" value="all">All Products</button>
+<button id="buttonApparel" class="btn btn-primary" value="apparel">Apparel</button>
+<button id="buttonDrinkware" class="btn btn-primary" value="drinkware">Drinkware</button>
+<button id="buttonAccessories" class="btn btn-primary" value="accessories">Accessories</button>
+</div>
+</div>
+</div>
+<div class="row">
+<div id='product-container' class="col">
+</div>
+</div>
+<div class="row">
+<div id="prod-95437520960"></div>
+</div>
+</main>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-9bf952ccbbd13c245169a0a1190323a27ce073a3d304b8c0fdf421ab22794a58.js"></script>
+<script src='https://sdks.shopifycdn.com/buy-button/0.9.1/buybutton.js'></script>
+<script id="rendered-js">
+const trevorDomain = 'thetrevorproject.myshopify.com';
+const trevorToken = 'c4776c5661f9a6cc79a3170b5fee4529';
+const accessToken = 'f9c2335ed3cd111d83c2f5bd02853c65';
+const productContainer = document.getElementById('product-container');
+
+var client = ShopifyBuy.buildClient({
+  domain: trevorDomain,
+  storefrontAccessToken: accessToken // previously apiKey, now deprecated
+});
+//product lists
+const colApparel = [
+"prod-2156666945600",
+"prod-2156669599808",
+"prod-2156670058560",
+"prod-2156670419008"];
+
+const colDrinkware = [
+"#prod-2156668682304",
+"#prod-2157432766528",
+"#prod-2377979199552"];
+
+const colAccessories = [
+"#prod-2156667994176",
+"#prod-2156668223552",
+"#prod-2156669206592",
+"#prod-2623102615616"];
+
+var cardsApparel = [];
+var cardsDrinkware = [];
+var cardsAccessories = [];
+
+var ui = ShopifyBuy.UI.init(client);
+
+var options = {
+  product: {
+    iframe: false,
+    order: [
+    'img',
+    'details',
+    'button',
+    'description'],
+
+    contents: {
+      details: true },
+
+    templates: {
+      img: '<img class="card-img-top" src="{{data.currentImage.srcLarge}}">',
+      title: '<h3 class="{{data.classes.product.title}}" data-element="product.title">{{data.title}}</h3>',
+      details: '<div class="card-body">' +
+      '<h5 class="card-title" data-element="product.title">{{data.title}}</h5>' +
+      '<p class="card-text small">{{data.selectedVariant.price}}</p>' +
+      '</div>' } },
+
+
+  classes: {
+    details: 'product-details',
+    img: '',
+    vertical: 'card-body' },
+
+  styles: {
+    details: {
+      'background': 'grey' } },
+
+
+  cart: {
+    iframe: true } };
+
+
+var productList = [];
+var productListRaw = client.product.fetchAll().then(products => {
+  let productsRaw = products;
+  for (let item of productsRaw) {
+    productList.push(item);
+  }
+  createProducts();
+});;
+
+function newProduct(handle) {
+  let target = document.getElementById('prod-' + handle);
+  ui.createComponent('product', {
+    id: handle,
+    options: options,
+    node: target });
+
+  target.classList.remove("shopify-buy-frame");
+};
+
+function createProducts() {
+  for (let product of productList) {
+    //converting the ID to one the buy button function uses
+    let buttonId = atob(product.id).slice(22);
+
+    let div = document.createElement('div');
+    let newDiv = productContainer.appendChild(div);
+    newDiv.className = 'card';
+    newDiv.id = 'prod-' + buttonId;
+    newDiv.style.display = 'inline-flex';
+    //Actually calling the function that fills the div with the shopify product
+    newProduct(buttonId);
+  };
+  for (let id of colApparel) {
+    cardsApparel.push(document.querySelector(id));
+  }
+  for (let id of colAccessories) {
+    cardsApparel.push(document.querySelector(id));
+  }
+  for (let id of colDrinkware) {
+    cardsApparel.push(document.querySelector(id));
+  }
+  return productCards = document.querySelectorAll('div.card');
+};
+//shopify buy sdk
+//Click Events
+
+var buttonAll = document.querySelector('#buttonAll');
+var buttonDrinkware = document.querySelector('#buttonDrinkware');
+var buttonAccessories = document.querySelector('#buttonAccessories');
+var buttonApparel = document.querySelector('#buttonApparel');
+
+buttonAll.addEventListener('click', function () {
+  filterProducts(buttonAll);
+});
+buttonDrinkware.addEventListener('click', function () {
+  filterProducts(buttonDrinkware);
+});
+buttonAccessories.addEventListener('click', function () {
+  filterProducts(buttonAccessories);
+});
+buttonApparel.addEventListener('click', function () {
+  filterProducts(buttonApparel);
+});
+
+function filterProducts(x) {
+  console.log(x.id);
+  switch (x.id) {
+    case 'buttonDrinkware':
+      for (let product of productCards) {
+        if (product.id === 'prod-2156668682304' || product.id === 'prod-2157432766528' || product.id === 'prod-2377979199552') {
+          product.classList.add('TESTING');
+          product.classList.remove('filtered');
+        } else {
+          product.classList.add('filtered');
+        }
+      }
+      break;
+    case 'buttonApparel':
+      for (let product of productCards) {
+        if (product.id === 'prod-2156666945600' || product.id === 'prod-2156669599808' || product.id === 'prod-2156670058560' || product.id === 'prod-2156670419008') {
+          product.classList.add('TESTING');
+          product.classList.remove('filtered');
+        } else {
+          product.classList.add('filtered');
+          product.classList.remove('TESTING');
+        }
+      }
+      break;
+    case 'buttonAccessories':
+      for (let product of productCards) {
+        if (product.id === 'prod-2156667994176' || product.id === 'prod-2156668223552' || product.id === 'prod-2156669206592' || product.id === 'prod-2623102615616') {
+          product.classList.add('TESTING');
+          product.classList.remove('filtered');
+        } else {
+          product.classList.add('filtered');
+          product.classList.remove('TESTING');
+        }
+      }
+      break;
+    case 'buttonAll':
+      for (let product of productCards) {
+        product.classList.remove('filtered');
+      };
+      break;
+    default:
+      console.log('whoops');}
+
+}
+console.log(buttonApparel);
+//# sourceURL=pen.js
+    </script>
+</body>
+</html>
